@@ -7,3 +7,13 @@
   display: block;
   background: #060406;
 }
+
+/* On portrait screens, the 16:9 video would crop the sides with `cover`,
+   clipping the wordmark. Switch to `contain` so the whole frame shows; the
+   video's near-black edges match the element background, so there are no
+   visible letterbox bars. */
+@media (orientation: portrait) {
+  .bg-video {
+    object-fit: contain;
+  }
+}
