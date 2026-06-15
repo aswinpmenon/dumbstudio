@@ -1,11 +1,11 @@
-import { ShaderBackground } from "./ShaderBackground"
+import { VideoBackground } from "./VideoBackground"
 import "./App.css"
 
 export default function App() {
   return (
     <div className="page">
       <div className="shader">
-        <ShaderBackground />
+        <VideoBackground />
       </div>
 
       <header className="nav">
