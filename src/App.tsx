@@ -1,11 +1,11 @@
-import { ExportedShader } from "./Shader"
+import { ShaderBackground } from "./ShaderBackground"
 import "./App.css"
 
 export default function App() {
   return (
     <div className="page">
       <div className="shader">
-        <ExportedShader />
+        <ShaderBackground />
       </div>
 
       <header className="nav">
