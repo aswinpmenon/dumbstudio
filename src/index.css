@@ -498,3 +498,19 @@ h3.display {
   text-transform: uppercase;
   color: var(--muted);
 }
+
+/* Reveal start states to prevent Flash of Unstyled Content (FOUC) */
+[data-hero-fade] {
+  opacity: 0;
+  transform: translateY(26px);
+}
+.hero__wordmark-text .line > span {
+  transform: translateY(110%);
+}
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(34px);
+}
+.split .line > span {
+  transform: translateY(110%);
+}
