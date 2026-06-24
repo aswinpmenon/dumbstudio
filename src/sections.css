@@ -10,6 +10,11 @@
   color: #fff;
   padding-block: clamp(0.7rem, 1.6vw, 1.3rem);
   border-block: 2px solid var(--fg);
+  width: 110vw;
+  margin-left: -5vw;
+  transform: rotate(-2.5deg);
+  margin-block: clamp(3rem, 6vw, 5rem);
+  z-index: 2;
 }
 .marquee__track {
   display: flex;
