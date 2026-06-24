@@ -20,6 +20,45 @@ function rndRadius() {
   }% ${100 - r()}%`
 }
 
+interface SCWidget {
+  bind: (event: string, callback: (...args: unknown[]) => void) => void;
+  unbind: (event: string, callback?: (...args: unknown[]) => void) => void;
+  seekTo: (milliseconds: number) => void;
+  play: () => void;
+}
+
+interface SoundCloudSDK {
+  Widget: (iframe: HTMLIFrameElement) => SCWidget;
+  Events: {
+    READY: string;
+    PLAY: string;
+    LOAD_PROGRESS: string;
+  };
+}
+
+function getSoundCloudSDK(callback: (SC: SoundCloudSDK) => void) {
+  const win = window as unknown as { SC?: SoundCloudSDK }
+  if (win.SC) {
+    callback(win.SC)
+    return
+  }
+  let script = document.getElementById("sc-widget-api") as HTMLScriptElement | null
+  if (!script) {
+    script = document.createElement("script")
+    script.id = "sc-widget-api"
+    script.src = "https://w.soundcloud.com/player/api.js"
+    script.async = true
+    document.body.appendChild(script)
+  }
+  const onLoad = () => {
+    if (win.SC) {
+      callback(win.SC)
+    }
+    script?.removeEventListener("load", onLoad)
+  }
+  script.addEventListener("load", onLoad)
+}
+
 export function GameMode() {
   const [active, setActive] = useState(false)
   const [shots, setShots] = useState(0)
@@ -177,6 +216,71 @@ export function GameMode() {
     }
   }, [active])
 
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  useEffect(() => {
+    if (!active) return
+
+    let widget: SCWidget | null = null
+    let activeEffect = true
+
+    getSoundCloudSDK((SC) => {
+      if (!activeEffect || !SC || !SC.Widget) return
+
+      const iframe = iframeRef.current
+      if (!iframe) return
+
+      try {
+        const activeWidget = SC.Widget(iframe)
+        widget = activeWidget
+
+        const onReady = () => {
+          if (!activeEffect) return
+
+          let seeked = false
+          const doSeek = () => {
+            if (seeked) return
+            seeked = true
+            activeWidget.seekTo(3000)
+            activeWidget.unbind(SC.Events.LOAD_PROGRESS)
+            activeWidget.unbind(SC.Events.PLAY)
+          }
+
+          activeWidget.bind(SC.Events.LOAD_PROGRESS, (e: unknown) => {
+            const data = e as { loadedProgress: number }
+            if (data && data.loadedProgress > 0) {
+              doSeek()
+            }
+          })
+
+          activeWidget.bind(SC.Events.PLAY, () => {
+            doSeek()
+          })
+        }
+
+        activeWidget.bind(SC.Events.READY, onReady)
+      } catch (err) {
+        console.error("SoundCloud Widget initialization error:", err)
+      }
+    })
+
+    return () => {
+      activeEffect = false
+      if (widget) {
+        const SC = (window as unknown as { SC?: SoundCloudSDK }).SC
+        if (SC && typeof SC.Widget === "function") {
+          try {
+            widget.unbind(SC.Events.READY)
+            widget.unbind(SC.Events.LOAD_PROGRESS)
+            widget.unbind(SC.Events.PLAY)
+          } catch {
+            // best effort
+          }
+        }
+      }
+    }
+  }, [active])
+
   const audioRef = useRef<AudioContext | null>(null)
 
   const clear = () => {
@@ -230,13 +334,14 @@ export function GameMode() {
 
       {active && (
         <iframe
+          ref={iframeRef}
           title="SoundCloud Background Music"
           width="0"
           height="0"
           scrolling="no"
           frameBorder="no"
           allow="autoplay"
-          src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F758367781&amp;auto_play=true#t=0:03"
+          src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F758367781&amp;auto_play=true"
           style={{ position: "absolute", visibility: "hidden", pointerEvents: "none" }}
         />
       )}
