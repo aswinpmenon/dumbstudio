@@ -37,10 +37,6 @@ export function Hero({ active }: { active: boolean }) {
         <span className="eyebrow" data-hero-fade>
           Web &amp; App Studio — est. 2026
         </span>
-        <p className="hero__intro" data-hero-fade>
-          We design and develop websites and apps that move, convert, and stick
-          in your head.
-        </p>
       </div>
 
       <h1 className="hero__wordmark-text" aria-label="dumb studio">
@@ -54,7 +50,13 @@ export function Hero({ active }: { active: boolean }) {
         </span>
       </h1>
 
-      <div className="hero__foot" />
+      <div className="hero__foot">
+        <div />
+        <p className="hero__intro" data-hero-fade>
+          We design and develop websites and apps that move, convert, and stick
+          in your head.
+        </p>
+      </div>
     </section>
   )
 }
