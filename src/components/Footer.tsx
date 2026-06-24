@@ -3,7 +3,7 @@ export function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer__bottom">
-          <span>dumb studio</span>
+          <span>© 2026 dumbstudio</span>
         </div>
       </div>
     </footer>
