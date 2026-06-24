@@ -196,7 +196,7 @@ export function GameMode() {
             <span className="game-toggle__knob" />
           </span>
           <span className="game-toggle__label">
-            Game mode
+            handle guns?
             <svg
               className="game-toggle__scribble"
               viewBox="0 0 100 40"
