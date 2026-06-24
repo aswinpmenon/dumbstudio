@@ -370,7 +370,7 @@ h3.display {
   font-family: var(--font-display);
   font-weight: 900;
   text-transform: uppercase;
-  font-size: clamp(4rem, 23vw, 22rem);
+  font-size: clamp(calc(4rem - 5px), 16.5vw, calc(22rem - 5px));
   line-height: 0.8;
   letter-spacing: -0.03em;
   margin-block: auto;
@@ -382,6 +382,17 @@ h3.display {
 }
 .hero__wordmark-text em {
   font-style: normal;
+  color: var(--accent);
+}
+.char-cycle {
+  display: inline-block;
+  transition: color 0.15s ease;
+}
+.char-cycle.is-cycling,
+.char-cycle:hover {
+  font-family: "UnifrakturMaguntia", serif !important;
+  text-transform: none !important;
+  font-weight: normal;
   color: var(--accent);
 }
 .hero__foot {
@@ -505,6 +516,7 @@ h3.display {
 }
 .hero__wordmark-text .line > span {
   visibility: hidden;
+  white-space: nowrap;
 }
 [data-reveal] {
   opacity: 0;

@@ -122,6 +122,9 @@ export function GameMode() {
       splat(x, y)
       shake()
       pop()
+      if (typeof navigator !== "undefined" && navigator.vibrate) {
+        navigator.vibrate(40)
+      }
       setShots((s) => s + 1)
     }
 

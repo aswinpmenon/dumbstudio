@@ -85,7 +85,7 @@ const config: ShaderLabConfig = {
         text: "dumb studio",
         anchor: "center",
         offset: [0, 0],
-        fontSize: 200,
+        fontSize: 195,
         fontFamily: "sans",
         fontWeight: 800,
         letterSpacing: -0.1,
