@@ -444,6 +444,36 @@
   border-color: var(--accent);
 }
 
+.game-toggle__label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.game-toggle__scribble {
+  position: absolute;
+  inset: -6px -12px;
+  width: calc(100% + 24px);
+  height: calc(100% + 12px);
+  pointer-events: none;
+  overflow: visible;
+  z-index: 1;
+}
+.game-toggle__scribble path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.game-toggle:hover .game-toggle__scribble path,
+.game-on .game-toggle .game-toggle__scribble path {
+  stroke-dashoffset: 0;
+}
+
 /* Game mode cursor styles */
 .game-on {
   cursor: crosshair !important;

@@ -192,7 +192,20 @@ export function GameMode() {
           <span className="game-toggle__switch">
             <span className="game-toggle__knob" />
           </span>
-          <span className="game-toggle__label">Game mode</span>
+          <span className="game-toggle__label">
+            Game mode
+            <svg
+              className="game-toggle__scribble"
+              viewBox="0 0 100 40"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                pathLength={1}
+                d="M 4 20 C 4 8, 30 4, 96 8 C 99 10, 96 30, 60 34 C 20 38, 4 25, 8 20 C 12 15, 50 12, 92 18"
+              />
+            </svg>
+          </span>
         </button>,
         document.body
       )}
