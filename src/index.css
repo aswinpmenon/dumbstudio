@@ -4,6 +4,14 @@
    ============================================================ */
 
 @font-face {
+  font-family: "ElliotSix";
+  src: url("../ElliotSix/ElliotSix.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: "Basement Grotesque";
   src: url("/basement-grotesque-black.woff2") format("woff2");
   font-weight: 900;
@@ -21,9 +29,9 @@
   --accent: #ff2d16;
 
   --font-display: "Basement Grotesque", "Archivo", system-ui, sans-serif;
-  --font-alt: "Space Grotesk", system-ui, sans-serif;
-  --font-body: "Inter", system-ui, sans-serif;
-  --font-mono: "Space Mono", ui-monospace, monospace;
+  --font-alt: "ElliotSix", system-ui, sans-serif;
+  --font-body: "ElliotSix", system-ui, sans-serif;
+  --font-mono: "ElliotSix", ui-monospace, monospace;
 
   --container: 1600px;
   --pad: clamp(1.1rem, 4vw, 3.5rem);
