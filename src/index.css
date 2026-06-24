@@ -499,18 +499,16 @@ h3.display {
   color: var(--muted);
 }
 
-/* Reveal start states while loading to prevent Flash of Unstyled Content (FOUC) */
-body.is-loading [data-hero-fade] {
+/* Reveal start states to prevent Flash of Unstyled Content (FOUC) */
+[data-hero-fade] {
   opacity: 0;
-  transform: translateY(26px);
 }
-body.is-loading .hero__wordmark-text .line > span {
-  transform: translateY(110%);
+.hero__wordmark-text .line > span {
+  visibility: hidden;
 }
-body.is-loading [data-reveal] {
+[data-reveal] {
   opacity: 0;
-  transform: translateY(34px);
 }
-body.is-loading .split .line > span {
-  transform: translateY(110%);
+.split .line > span {
+  visibility: hidden;
 }

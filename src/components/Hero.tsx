@@ -19,7 +19,7 @@ export function Hero({ active }: { active: boolean }) {
       })
 
       const lines = gsap.utils.toArray<HTMLElement>(".hero__wordmark-text .line > span")
-      gsap.set(lines, { yPercent: 110 })
+      gsap.set(lines, { yPercent: 110, autoAlpha: 1 })
       gsap.to(lines, {
         yPercent: 0,
         duration: 1.1,

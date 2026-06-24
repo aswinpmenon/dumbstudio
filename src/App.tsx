@@ -63,7 +63,7 @@ export default function App() {
       // Line-mask headings (hero handled separately by <Hero active />)
       gsap.utils.toArray<HTMLElement>(".split:not(.hero-split)").forEach((el) => {
         const spans = el.querySelectorAll<HTMLElement>(".line > span")
-        gsap.set(spans, { yPercent: 110 })
+        gsap.set(spans, { yPercent: 110, autoAlpha: 1 })
         ScrollTrigger.create({
           trigger: el,
           start: "top 85%",
