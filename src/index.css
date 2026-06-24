@@ -507,7 +507,7 @@ h3.display {
 .footer__bottom {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
