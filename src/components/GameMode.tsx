@@ -227,6 +227,19 @@ export function GameMode() {
           </div>,
           document.body
         )}
+
+      {active && (
+        <iframe
+          title="SoundCloud Background Music"
+          width="0"
+          height="0"
+          scrolling="no"
+          frameBorder="no"
+          allow="autoplay"
+          src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F758367781&amp;auto_play=true#t=0:03"
+          style={{ position: "absolute", visibility: "hidden", pointerEvents: "none" }}
+        />
+      )}
     </>
   )
 }
