@@ -388,6 +388,221 @@
 }
 
 /* ============================================================
+   Emote sphere — glossy blob that reacts to clicks
+   ============================================================ */
+.emote {
+  --paint: #ff2d16;
+  position: absolute;
+  top: 24vh;
+  right: clamp(2rem, 7vw, 7rem);
+  z-index: 6;
+  width: clamp(120px, 15vw, 196px);
+  aspect-ratio: 1;
+  will-change: transform;
+  /* Line boil hand-drawn effect */
+  animation: lineBoil 0.3s step-end infinite;
+}
+
+.emote__ball {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 6px solid #0a0a0a;
+  border-radius: 52% 48% 54% 46% / 52% 47% 53% 48%;
+  animation: blobWobble 8s ease-in-out infinite;
+  cursor: pointer;
+  overflow: hidden;
+  background: var(--paint);
+  box-shadow: 8px 10px 0px rgba(0, 0, 0, 0.15);
+  transition: filter 0.2s ease, background 0.35s ease;
+  will-change: transform;
+}
+.emote__ball:hover {
+  filter: brightness(1.05);
+}
+
+.emote__shading {
+  position: absolute;
+  inset: 0;
+  border-radius: 52% 48% 54% 46% / 52% 47% 53% 48%;
+  animation: blobWobble 8s ease-in-out infinite;
+  pointer-events: none;
+  /* Flat cell shadow on the bottom-right */
+  background: radial-gradient(
+    circle at 35% 35%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.16) 50.5%
+  );
+}
+
+.emote__splash {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: var(--c);
+  border-radius: var(--r);
+  pointer-events: none;
+  animation: splashPop 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes splashPop {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes blobWobble {
+  0%, 100% {
+    border-radius: 52% 48% 54% 46% / 52% 47% 53% 48%;
+  }
+  25% {
+    border-radius: 46% 54% 44% 56% / 48% 54% 46% 52%;
+  }
+  50% {
+    border-radius: 54% 46% 56% 44% / 53% 46% 54% 47%;
+  }
+  75% {
+    border-radius: 48% 52% 46% 54% / 46% 53% 47% 54%;
+  }
+}
+
+@keyframes lineBoil {
+  0%, 100% {
+    filter: url(#hand-drawn-1);
+  }
+  33.33% {
+    filter: url(#hand-drawn-2);
+  }
+  66.66% {
+    filter: url(#hand-drawn-3);
+  }
+}
+
+.emote__face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.emote__face .w-fill {
+  fill: #fbfff4;
+  stroke: #0a0a0a;
+  stroke-width: 6;
+}
+.emote__face .w-stroke {
+  fill: none;
+  stroke: #0a0a0a;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.emote__face .w-stroke.smile {
+  stroke-width: 9;
+}
+.emote__face .nostroke {
+  stroke: none;
+}
+.emote__face .mouth {
+  fill: #0a0a0a;
+  stroke: #0a0a0a;
+  stroke-width: 3;
+}
+.emote__face .pupil {
+  fill: #0a0a0a;
+  stroke: none;
+}
+
+/* In-flight (shot in game mode): absolute-positioned relative to page, JS drives transform */
+.emote--flying {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 72;
+}
+
+/* Intro phase: layered above the preloader */
+.emote--intro {
+  z-index: 201 !important;
+}
+
+/* Speech bubble */
+.emote__bubble {
+  position: absolute;
+  right: 78%;
+  top: 6%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  background: #f7f7f2;
+  color: #0a0a0a;
+  border: 4px solid #0a0a0a;
+  box-shadow: 6px 8px 0px rgba(0, 0, 0, 0.15);
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(1.1rem, 1.8vw, 1.7rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  padding: 0.55em 0.7em;
+  border-radius: 12px;
+  white-space: nowrap;
+  transform-origin: 90% 100%;
+  animation: emoteBubble 1.15s cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
+}
+.emote__bubble::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  bottom: -11px;
+  width: 22px;
+  height: 14px;
+  background: #f7f7f2;
+  border-right: 4px solid #0a0a0a;
+  border-left: 4px solid #0a0a0a;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+.emote__spark {
+  position: absolute;
+  right: -18px;
+  top: -16px;
+  width: 30px;
+  height: 30px;
+  stroke: var(--accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  fill: none;
+}
+@keyframes emoteBubble {
+  0% {
+    opacity: 0;
+    transform: scale(0.4) translateY(6px);
+  }
+  18% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  78% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+}
+@media (max-width: 760px) {
+  .emote {
+    display: none;
+  }
+}
+
+/* ============================================================
    Game mode — shoot the page with colour
    ============================================================ */
 
@@ -598,3 +813,83 @@
     gap: 0.6rem;
   }
 }
+
+/* ============================================================
+   Emote Sphere Revival (Angel Halo & Wings)
+   ============================================================ */
+.emote__angel-gear {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1; /* Render wings behind the ball for cartoon depth */
+  animation: angelFloat 2.2s ease-in-out infinite;
+}
+
+.emote__wing {
+  position: absolute;
+  top: 10%;
+  width: 60%;
+  height: 60%;
+  filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.15));
+}
+
+.emote__wing--left {
+  right: 80%;
+  transform-origin: 90% 50%;
+  animation: wingFlapLeft 0.5s ease-in-out infinite alternate;
+}
+
+.emote__wing--right {
+  left: 80%;
+  transform-origin: 10% 50%;
+  animation: wingFlapRight 0.5s ease-in-out infinite alternate;
+}
+
+.emote__halo {
+  position: absolute;
+  bottom: 92%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: auto;
+  z-index: 5; /* Halo floats in front */
+  filter: drop-shadow(0px 4px 6px rgba(255, 212, 0, 0.4));
+  animation: haloTilt 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes angelFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes wingFlapLeft {
+  0% {
+    transform: rotate(0deg) scaleY(1);
+  }
+  100% {
+    transform: rotate(-25deg) scaleY(0.9);
+  }
+}
+
+@keyframes wingFlapRight {
+  0% {
+    transform: rotate(0deg) scaleY(1);
+  }
+  100% {
+    transform: rotate(25deg) scaleY(0.9);
+  }
+}
+
+@keyframes haloTilt {
+  0% {
+    transform: translateX(-50%) translateY(0px) rotate(-6deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-12px) rotate(6deg);
+  }
+}
+

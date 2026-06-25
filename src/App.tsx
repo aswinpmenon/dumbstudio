@@ -15,6 +15,7 @@ import { About } from "./components/About"
 import { Contact } from "./components/Contact"
 import { Footer } from "./components/Footer"
 import { GameMode } from "./components/GameMode"
+import { EmoteSphere } from "./components/EmoteSphere"
 
 export default function App() {
   const [loaded, setLoaded] = useState(false)
@@ -193,6 +194,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <EmoteSphere loaded={loaded} />
       {loaded && <GameMode />}
     </>
   )

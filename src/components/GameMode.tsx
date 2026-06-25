@@ -124,8 +124,8 @@ export function GameMode() {
       )
     }
 
-    const splat = (px: number, py: number) => {
-      const color = COLORS[(Math.random() * COLORS.length) | 0]
+    const splat = (px: number, py: number, paint?: string) => {
+      const color = paint || COLORS[(Math.random() * COLORS.length) | 0]
       const size = 56 + Math.random() * 96
       const wrap = document.createElement("div")
       wrap.className = "splat"
@@ -157,8 +157,8 @@ export function GameMode() {
       layer.appendChild(wrap)
     }
 
-    const fire = (x: number, y: number) => {
-      splat(x, y)
+    const fire = (x: number, y: number, paint?: string) => {
+      splat(x, y, paint)
       shake()
       pop()
       if (typeof navigator !== "undefined" && navigator.vibrate) {
@@ -173,8 +173,20 @@ export function GameMode() {
       e.preventDefault()
       e.stopPropagation()
 
+      // Direct hit on the emote sphere → knock it loose and paint it with
+      // the colour of this shot's splat.
+      let hitPaint: string | undefined
+      if (t.closest(".emote")) {
+        hitPaint = COLORS[(Math.random() * COLORS.length) | 0]
+        window.dispatchEvent(
+          new CustomEvent("emote-shot", {
+            detail: { x: e.clientX, y: e.clientY, color: hitPaint },
+          })
+        )
+      }
+
       pointerRef.current = { x: e.pageX, y: e.pageY }
-      fire(pointerRef.current.x, pointerRef.current.y)
+      fire(pointerRef.current.x, pointerRef.current.y, hitPaint)
 
       if (burstIntervalRef.current) clearInterval(burstIntervalRef.current)
       burstIntervalRef.current = setInterval(() => {
@@ -213,6 +225,8 @@ export function GameMode() {
       }
       gsap.killTweensOf(root)
       gsap.set(root, { x: 0, y: 0 })
+      // Send the sphere home when leaving game mode
+      window.dispatchEvent(new CustomEvent("emote-reset"))
     }
   }, [active])
 
